@@ -7,7 +7,7 @@ name: web-app-dev_app_d36f005_env_c97c7fd Pipeline (Skyu Generated)
   repository_dispatch:
     types: pipeline_4170b7ae-0514-4460-856e-ce34f7b80cc9
 env:
-  ENCODED_PIPELINE_SECRET: ${{secrets.COFFEESHOP_WEBAPPDEV_APP_D36F005_ENV_C97C7FD}}
+  ENCODED_PIPELINE_SECRET: ${{secrets.COFFEESHOP_WEBAPPDEV_APP_D36F005_ENV_C97C7FD_YAML}}
   COMMIT_ID: ${{github.event.client_payload.commitId || github.sha}}
   S3_SYNC_URL: >-
     s3://skyu-project-a8c7f617-8f48-4ce0-9122-d18b3447154e-webapps/dev/coffee-shop
@@ -25,7 +25,7 @@ jobs:
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
-      - name: 'Run :: Decoding Secrets 1e15a6'
+      - name: 'Run :: Decoding Secrets e3fb17'
         run: |2-
 
                   if [ ! -x "$(command -v jq)" ]; then
@@ -37,8 +37,7 @@ jobs:
                 
       - name: 'Run :: Checkout repository for Code Scan'
         uses: actions/checkout@v4
-      - name: 'Run :: Decoding Secrets e39226'
-        run: |2-
+      - run: |2-
 
                   if [ ! -x "$(command -v jq)" ]; then
                     echo "jq not found, installing..."
@@ -47,12 +46,12 @@ jobs:
                   fi
                   echo "${{ env.ENCODED_PIPELINE_SECRET }}" | base64 --decode | jq -r 'to_entries[] | "\(.key)=\(.value)"' | while read line; do echo "$line" >> $GITHUB_ENV; echo "::add-mask::${line#*=}"; done
                 
-      - name: 'Run :: Install Semgrep, Scan and Print'
-        run: >-
+        name: 'Run :: Decoding Secrets e39226'
+      - run: >-
           docker run -i -v "${PWD}:/src" semgrep/semgrep semgrep /src --json
           --quiet > semgrep_results.json
-      - name: 'Run :: Upload Code Scan Report'
-        run: |2-
+        name: 'Run :: Install Semgrep, Scan and Print'
+      - run: |2-
 
                   SARIF_FILE="semgrep_results.json"
                   if [ -n "$SARIF_FILE" ]; then
@@ -70,12 +69,13 @@ jobs:
                   else
                       echo "SARIF file not found."
                   fi
+        name: 'Run :: Upload Code Scan Report'
   _status-pending:
     name: _status Pending
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
-      - name: 'Run :: Decoding Secrets 1adea3'
+      - name: 'Run :: Decoding Secrets 5ac1c5'
         run: |2-
 
                   if [ ! -x "$(command -v jq)" ]; then
@@ -102,7 +102,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.client_payload.releaseData }}
     steps:
-      - name: 'Run :: Decoding Secrets e3c734'
+      - name: 'Run :: Decoding Secrets 34468e'
         run: |2-
 
                   if [ ! -x "$(command -v jq)" ]; then
@@ -166,7 +166,7 @@ jobs:
 
               git fetch --all
               git checkout ${{ github.event.client_payload.commitId }}
-      - name: 'Run :: Decoding Secrets d32afc'
+      - name: 'Run :: Decoding Secrets bbd4a6'
         run: |2-
 
                   if [ ! -x "$(command -v jq)" ]; then
@@ -176,7 +176,7 @@ jobs:
                   fi
                   echo "${{ env.ENCODED_PIPELINE_SECRET }}" | base64 --decode | jq -r 'to_entries[] | "\(.key)=\(.value)"' | while read line; do echo "$line" >> $GITHUB_ENV; echo "::add-mask::${line#*=}"; done
                 
-      - name: 'Run :: Configure AWS credentials 9710e65b-b47c-470a-a158-2cdc74116c57'
+      - name: 'Run :: Configure AWS credentials ba072644-2d4a-4880-83c5-cbc86aa60782'
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ env.roleARN }}
@@ -208,7 +208,7 @@ jobs:
       - build-and-sync-web-app
     if: ${{ !(failure() || cancelled()) }}
     steps:
-      - name: 'Run :: Decoding Secrets 531e8a'
+      - name: 'Run :: Decoding Secrets 66278b'
         run: |2-
 
                   if [ ! -x "$(command -v jq)" ]; then
@@ -231,7 +231,7 @@ jobs:
       - build-and-sync-web-app
     if: ${{ failure() || cancelled() }}
     steps:
-      - name: 'Run :: Decoding Secrets 99e962'
+      - name: 'Run :: Decoding Secrets 184520'
         run: |2-
 
                   if [ ! -x "$(command -v jq)" ]; then
@@ -254,7 +254,7 @@ jobs:
       - build-and-sync-web-app
     if: github.event.client_payload.releaseData == null
     steps:
-      - name: 'Run :: Decoding Secrets c7d43c'
+      - name: 'Run :: Decoding Secrets 65dce0'
         run: |2-
 
                   if [ ! -x "$(command -v jq)" ]; then
