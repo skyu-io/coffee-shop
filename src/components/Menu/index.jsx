@@ -16,7 +16,8 @@ const Menu = () => {
 
   useEffect(() => {
     refreshCart();
-  }, [refreshCart]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleIncrement = (item) => {
     addToCart(item.id);
